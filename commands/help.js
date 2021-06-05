@@ -16,16 +16,22 @@ module.exports = {
     let help = new MessageEmbed()
     .setTitle(`BOT LINK`)
     .setDescription(`
+    **PUBLIC_COMMANDS**
+   > A!help • A!se • A!savatar
+   > ---------------------------
+   > A!channelinfo • A!bot • A!invite
+   
+   > A!ping • A!listemojis
    **🎵 | MUSIC_COMMANDS**
    > A!pause •  A!play (A!p)  • A!skip (A!s) • 
    > ---------------------------
    > A!stop • A!leave • A!loop (A!l) 
    > ---------------------------
-   > A!queue (A!q) • A!ping • A!bot (A!)
+   > A!queue (A!q) • A!ping •
    > ---------------------------
    > A!remove • A!resume (A!r) •A!search 
    > ---------------------------
-   > A!skipto (A!st) • A!volume (A!v) •A!invite (A!inv) 
+   > A!skipto (A!st) • A!volume (A!v) •
    > ---------------------------
    > A!lyrics (A!ly) • A!playlist (A!pl) • A!shuffle
    > ---------------------------
