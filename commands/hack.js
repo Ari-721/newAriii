@@ -57,7 +57,7 @@ module.exports = {
           Member.id
         } | Email: ${Member.username + pass}@${emails} | Password: ${passwords}`
       )
-      .setFooter(`:joy:تەنیا گالتەیە بە جدی وەری مەگرە`)
+      .setFooter(`:)تەنیا گالتەیە بە جدی وەری مەگرە`)
       .setTimestamp();
 
     await message.channel.send(`Hacking Started! Hacking ${Member.username}`);

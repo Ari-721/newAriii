@@ -16,6 +16,6 @@ module.exports.run = async (client, message, args) => {
 module.exports.help = {
     name: "icon",
     description: "Grabs the server icon",
-    usage: "icon",
+    usage: "savatar" | "serveravatar",
     type: "Utility"
 }
