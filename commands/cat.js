@@ -2,13 +2,13 @@ const superagent = require("snekfetch");
 const Discord = require('discord.js')
 
 module.exports.run = async (client, message, args) => {
-    superagent.get('https://nekos.life/api/couple')
+    superagent.get('https://nekos.life/api/v2/img/meow')
         .end((err, response) => {
       const embed = new Discord.MessageEmbed()
-      .setTitle("Kiss gif")
+      .setTitle("Cat gif")
       .setImage(response.body.url)
       .setColor("RANDOM")
-      .setFooter(`woof`)
+      .setFooter(`meow`)
       .setURL(response.body.url);
   message.channel.send(embed);
     }).catch((err) => message.channel.send({embed: {
@@ -19,8 +19,8 @@ module.exports.run = async (client, message, args) => {
 }
 
 module.exports.help = {
-    name: "dog",
-    description: "Sends a random dog photo",
-    usage: "dog",
+    name: "couple",
+    description: "Sends a random couple photo",
+    usage: "couple",
     type: "Fun" 
 }
