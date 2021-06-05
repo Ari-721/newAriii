@@ -20,8 +20,9 @@ module.exports = {
    > A!help • A!se • A!savatar
    > ---------------------------
    > A!channelinfo • A!bot • A!invite
-   
-   > A!ping • A!listemojis
+   > ---------------------------
+   > A!ping • A!listemojis •
+   > ---------------------------
    **🎵 | MUSIC_COMMANDS**
    > A!pause •  A!play (A!p)  • A!skip (A!s) • 
    > ---------------------------
