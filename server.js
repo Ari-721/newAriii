@@ -69,3 +69,17 @@ fastify.listen(process.env.PORT, function(err, address) {
   console.log(`Your app is listening on ${address}`);
   fastify.log.info(`server listening on ${address}`);
 });
+
+/////////////////////////
+require("dotenv").config();//Loading .env
+const fs = require("fs");
+const { Collection, Client } = require("discord.js");
+
+const client = new Client();//Making a discord bot client
+client.commands = new Collection();//Making client.commands as a Discord.js Collection
+client.queue = new Map()
+
+client.config = {
+  prefix: process.env.PREFIX,
+  SOUNDCLOUD: process.env.SOUNDCLOUD_CLIENT_ID
+}
