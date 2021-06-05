@@ -28,7 +28,8 @@
     "fs": "0.0.1-security",
     "ytpl": "^2.0.0-alpha.3",
     "node-opus": "^0.3.3",
-    "snekfetch": "^4.0.4"
+    "snekfetch": "^4.0.4",
+    "request": "^2.88.2"
   },
   "engines": {
     "node": "12.x"
