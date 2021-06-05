@@ -17,8 +17,7 @@ module.exports = {
     .setTitle(`BOT LINK`)
     .setDescription(`
    **🎵 | MUSIC_COMMANDS**
-   > A!help (A!h)  •  A!play (A!p)  • A!skip (A!s) • 
-> A!pause /
+   > A!pause •  A!play (A!p)  • A!skip (A!s) • 
    > ---------------------------
    > A!stop • A!leave • A!loop (A!l) 
    > ---------------------------
@@ -31,14 +30,17 @@ module.exports = {
    > A!lyrics (A!ly) • A!playlist (A!pl) • A!shuffle
    > ---------------------------
     **😅 | FUN_COMMANDS**
-   > A!kiss • A!cat • A!dog
+   > A!kiss • A!slap • A!tickle
    > ---------------------------
-   > A!hack • A!google • A!tickle 
+   > A!hack • A!google • A!dog
    > ---------------------------
-   > A!slap • A!boy • A!girl
-    
+   > A!cat • A!boy • A!girl
+   > ---------------------------
+    **🎮 | GAME_COMMANDS**
+   > A!8ball • A!rps • A!balls
+   > ---------------------------
     **👊 | MODERATION_COMMANDS**
-   > **COMMING SOON**
+   > A!pin • A!unpin • A!tempmute
    > ---------------------------
     `)
 
