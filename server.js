@@ -456,29 +456,25 @@ client.on("message", message => {
       .then(msg => msg.delete(7000));
   }
 });
-//////////////////mute voice :///////////0
+//////////////////youtube :///////////0
 client.on("message", message => {
-  if (message.content.startsWith(prefix + "mutevoice")) {
-    if (!message.member.hasPermission("MUTE_MEMBERS"))
-      return message.channel
-        .sendMessage("**You dont Have premisssion Mutevoicr** ")
-        .then(m => m.delete(5000));
-    if (!message.guild.member(client.user).hasPermission("MUTE_MEMBERS"))
-      return message
-        .reply("**I Don't Have `MUTE_MEMBERS` Permission**")
-        .then(msg => msg.delete(6000));
-
-    if (message.mentions.users.size === 0) {
-      return message.reply("Menition member");
-    }
-    let muteMember = message.guild.member(message.mentions.users.first());
-    if (!muteMember) {
-      return message.reply("Restart");
-    }
-    muteMember.setMute(true);
-    if (muteMember) {
-      message.channel.sendMessage("Muted voice ");
-    }
+  if (message.content.startsWith(prefix + "youtube")) {
+    const query = message.content.split(" ").slice(1);
+    const url = `https://www.youtube.com/results?search_query=${query}`;
+    if (!query)
+      return message.channel.send(
+        `**:x: | Error , Please Type Command True Ex : \`${prefix}youtube [Anything]\`**`
+      );
+    let querry = new Discord.MessageEmbed()
+      .setAuthor(
+        "Youtube",
+        "https://cdn.discordapp.com/attachments/599152027628732429/599229170517540874/1GNwojhBBCCCGEEEIIIYQQQgghhBBCCCGEEELI7APi4BZVCOUmf4AAAAASUVORK5CYII.png"
+      )
+      .setColor("RED")
+      .setTitle(`Results : \`${query.join(" ")}\``)
+      .setDescription(`${url}`)
+      .setFooter(message.author.username, message.author.avatarURL());
+    message.channel.send(querry);
   }
 });
 /////////////server////////
@@ -487,7 +483,6 @@ client.on("message", msg => {
     let embed = new Discord.MessageEmbed()
       .setThumbnail(msg.guild.iconURL())
       .setColor("RANDOM")
-      .addField("**SERVER CREATED ON**", msg.guild.name())
       .addField("Year📆", msg.guild.createdAt.getFullYear())
       .addField("Hour📆", msg.guild.createdAt.getHours())
       .addField("Day📆", msg.guild.createdAt.getDay())
@@ -499,3 +494,141 @@ client.on("message", msg => {
     msg.channel.send(embed);
   }
 });
+////////////date/////
+client.on('message', message => {
+         if (message.content === prefix + "date") {
+         if (!message.channel.guild) return   
+         var currentTime = new Date(),
+            hours = currentTime.getHours() + 4 ,
+            hours2 = currentTime.getHours() + 3 ,
+            hours3 = currentTime.getHours() + 2 ,
+            hours4 = currentTime.getHours() + 3 ,
+            minutes = currentTime.getMinutes(),
+            seconds = currentTime.getSeconds(),
+            Year = currentTime.getFullYear(),
+            Month = currentTime.getMonth() + 1,
+            Day = currentTime.getDate();
+             var h = hours
+  if(hours > 12) {
+               hours -= 12;
+            } else if(hours == 0) {
+                hours = "12";
+            }  
+             if(hours2 > 12) {
+               hours2 -= 12;
+            } else if(hours2 == 0) {
+                hours2 = "12";
+            
+            }  
+                         if(hours3 > 12) {
+               hours3 -= 12;
+            } else if(hours3 == 0) {
+                hours3 = "12";
+            } 
+            if (minutes < 10) {
+                minutes = '0' + minutes;
+            }
+            var suffix = 'AM';
+            if (hours >= 12) {
+                suffix = 'PM';
+                hours = hours - 12;
+            }
+            if (hours == 0) {
+                hours = 12;
+            }
+ 
+
+                var Date15= new Discord.MessageEmbed()
+                .setThumbnail("https://i.imgur.com/ib3n4Hq.png") 
+                .setTitle( "TIME AND DATE")
+                .setColor('RANDOM')
+                .setFooter("BLACK BOT")
+                .setFooter(message.author.username, message.author.avatarURL())
+                 .addField('Time',
+                "『"+ hours2 + ":" + minutes +":"+ seconds  + "』") 
+              
+                .addField('Date',
+                "『"+ Day + "-" + Month + "-" + Year +  "』")
+
+                 message.channel.send(Date15);
+        }
+    });
+//////////////rooms///////////
+client.on("message", message => {
+  if (message.content.startsWith(prefix + "rooms")) {
+    if (message.author.bot) return;
+    if (!message.guild) return;
+
+    var channels = message.guild.channels.cache
+      .map(channels => `${channels.name}, `)
+      .join(" ");
+    const embed = new Discord.MessageEmbed()
+      .setColor("RANDOM")
+      .setAuthor(message.author.username, message.author.avatarURL())
+      .setTitle("**INFO ROOMS**")
+      .addField(`${message.guild.name}`, `**Rooms:white_check_mark:**`)
+      .addField(
+        ":arrow_down: Rooms Number. :heavy_check_mark:",
+        `** ${message.guild.channels.cache.size}**`
+      )
+
+      .addField(
+        ":arrow_down:Rooms  Name. :heavy_check_mark::",
+        `**[${channels}]**`
+      );
+    message.channel.send(embed);
+  }
+});
+//////////////////weather.js/////////
+const weather = require("weather-js");
+client.on("message", message => {
+  if (message.content.startsWith(prefix + "weather")) {
+    var args = message.content.split(" ").slice(1);
+    weather.find({ search: args.join(" "), degreeType: "C" }, function(
+      err,
+      result
+    ) {
+      if (err) message.channel.send(err);
+      if (result === undefined || result.length === 0) {
+        message.channel.send("**Please enter a location!**");
+        return;
+      }
+      var current = result[0].current;
+      var location = result[0].location;
+      const embed = new Discord.MessageEmbed()
+        .setDescription(`**${current.skytext}**`)
+        .setAuthor(`Weather for ${current.observationpoint}`)
+        .setThumbnail(current.imageUrl)
+        .setColor(0x00ae86)
+        .addField("Timezone", `UTC${location.timezone}`, true)
+        .addField("Degree Type", location.degreetype, true)
+        .addField("Temperature", `${current.temperature} Degrees`, true)
+        .addField("Feels Like", `${current.feelslike} Degrees`, true)
+        .addField("Winds", current.winddisplay, true)
+        .addField("Humidity", `${current.humidity}%`, true);
+      message.channel.send({ embed });
+    });
+  }
+});
+////////////////hide //
+client.on("message", message => {
+  if (message.content === prefix + "close") {
+    if (!message.channel.guild) return;
+    if (!message.member.hasPermission("MANAGE_CHANNELS"))
+      return message.reply("You Dont Have Perms `MANAGE CHANNELS` :x:");
+    message.channel.createOverwrite(message.guild.id, {
+      VIEW_CHANNEL: false
+    });
+    const embed = new Discord.MessageEmbed()
+      .setThumbnail(message.author.avatarURL())
+      .setTitle("**Channel hided**")
+      .addField("Guild name", message.guild.name)
+      .addField("Channel", message.channel.name)
+      .addField("Moderation", `<@${message.author.id}>`, true)
+      .setColor("RANDOM");
+    message.channel.send(embed).then(bj => {
+      bj.react("🔒");
+    });
+  }
+});
+//////////unhide//////
