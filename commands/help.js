@@ -23,6 +23,11 @@ module.exports = {
    > ---------------------------
    > A!ping • A!listemojis •
    > ---------------------------
+   > A!nick • A!rules • A!boosts
+   
+   > A!count • A!user • A!avatar
+   
+   > A!year • A!banner
    **🎵 | MUSIC_COMMANDS**
    > A!pause •  A!play (A!p)  • A!skip (A!s) • 
    > ---------------------------

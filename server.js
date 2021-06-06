@@ -212,4 +212,248 @@ client.on("message", async message => {
       .catch(console.error);
   }
 });
-/////////////////////////////
+/////////////////move////////////
+client.on("message", message => {
+  if (message.content.startsWith(prefix + "move")) {
+    let args = message.content.split(" ");
+    let user = message.guild.member(
+      message.mentions.users.first() || message.guild.members.cache.get(args[1])
+    );
+    if (!message.channel.guild || message.author.bot) return;
+    if (!message.guild.member(message.author).hasPermission("MOVE_MEMBERS"))
+      return message.channel.send("Please Check Your Permission");
+    if (!message.guild.member(client.user).hasPermission("MOVE_MEMBERS"))
+      return message.channel.send("Please Check My Permission");
+    if (!message.member.voice.channel)
+      return message.channel.send("Your are not in voice channel");
+    if (!user) return message.channel.send(`**>>> ${prefix}move <@mention or id>`);
+    if (!message.guild.member(user.id).voice.channel)
+      return message.channel.send(
+        `**${user.user.username}** Has not in Voice channel`
+      );
+    message.guild
+      .member(user.id)
+      .voice.setChannel(message.member.voice.channel.id)
+      .then(() => {
+        message.channel.send(
+          `**${user.user.username}** has been moved to **${
+            message.guild.member(message.author).voice.channel.name
+          }**`
+        );
+      });
+  }
+  if (message.content.toLowerCase() === prefix + "help move") {
+    let move = new Discord.MessageEmbed()
+      .setTitle(`Command: move`)
+      .addField("Usage", `${prefix}move @user`)
+      .addField("Information", "move members");
+    message.channel.send(move);
+  }
+});
+//::::://////////////movevoice/////
+client.on('message', message => { //Black jack
+    if (!message.channel.guild) return;
+if(message.content == prefix + 'boosts') //Black jack
+var Black = new Discord.MessageEmbed()
+.setThumbnail(message.author.avatarURL())
+.setFooter(message.author.username, message.author.avatarURL())
+.addField('Server Name',`${message.guild.name}`)
+
+.addField('Boost Count',` ${message.guild.premiumSubscriptionCount}`)
+.setColor("RANDOM")
+message.channel.send(Black);
+}); 
+/////////count///////
+client.on('message', message => { //Black jack
+    if (!message.channel.guild) return;
+
+if(message.content == prefix + 'count') //Black jack
+var Black = new Discord.MessageEmbed()
+.setThumbnail(message.author.avatarURL())
+.setFooter(message.author.username, message.author.avatarURL())
+.setTitle('Info server ',`__${message.guild.name}__`)
+.addField('Total Member',`__${message.guild.memberCount}__`)
+message.channel.send(Black);
+}); 
+///////////////////rules////
+client.on("message", message => {
+    if (message.content.startsWith(prefix + "rules")) {
+      if (!message.member.hasPermission("MANAGE_GUILD")) return;
+     const blackjack = new Discord.MessageEmbed() 
+         .setColor("BLACK")
+         .setTitle("RULES")
+         .setImage("https://media.discordapp.net/attachments/644265220449107968/646324616536784897/image0-16.png")
+         .setFooter("RULES")
+         .setDescription(`
+**__Rules|یاسا__**
+ 
+سەرتا سلاو تان لێبێ 
+ئێمە وەک هەریەک لە سێرڤەرەکانی کە یاسای تایبەت بە خۆمان هەیە 
+1. نابێت قسەی ناشیاو یان جنێوێکێک بدەی چونکە یەکسەر باندت ئەکەین
+2. نابێت لە ڤۆیسی گشتی بۆت بەکاربێنن
+3. ریکلام کردن بە هەموو شێوەک قەدەخەیە جگە لە گۆرینەوەی
+4. نابێت بە هیچ شێوەیەک بێرێزی بە تاکێکی ستافەکە بکەیت
+5. بێزارکردنی پلەیەر و میوان قەدەخەیە
+6. باسکرنی سیاسەت بە هەموو شێوەیەک قەدەخەیە
+7. شارچێتی قەدەخەیە
+8. سوکایەتی کردن بە یەک قەدەخەیەو یەکسەر باندە
+9. زۆر دووبارە کردنەوەی مەسج یاجود سپام کردن قەدەخەیە
+لەگەل رێزماندا....!
+   `)
+   message.channel.send(blackjack)
+ 
+   }
+   });
+//////////////////nick//////
+client.on("message", message => {
+  if(message.content.startsWith(prefix + "nick")){
+      if (!message.member.hasPermission("MANAGE_NICKNAMES")) return message.reply("**You Dont hAve Premission MANAGE NICKNAMES**")
+  var user = message.mentions.members.first();
+  var args = message.content.split(" ").slice(2);
+  var nick = args.join(" ");
+  if(!user || !args) return message.channel.send(`**${prefix}nick @tag NickName**`);
+  message.guild.member(user.user).setNickname(`${nick}`);
+  const blackj = new Discord.MessageEmbed()
+  .setAuthor(message.author.username,message.author.avatarURL())
+  .setThumbnail(message.author.avatarURL())
+  .setTitle("**Done The Changed NickName**")
+  .addField("Name User", user)
+  .addField("Nickname New", nick)
+  .addField("Moderation", message.author.tag)
+  .setColor("RANDOM")
+  message.channel.send(blackj)
+  }
+  });
+///////////avatar/////
+client.on("message", message => {
+  if (message.content.startsWith(prefix + "avatar")) {
+    if (!message.channel.guild) return;
+    var mentionned = message.mentions.users.first();
+    var client;
+    if (mentionned) {
+      var client = mentionned;
+    } else {
+      var client = message.author;
+    }
+    const embed = new Discord.MessageEmbed()
+      .addField("Requested by:", "<@" + message.author.id + ">")
+      .setColor("BLACK")
+      .setImage(`${client.avatarURL}`)
+      .setFooter("BLACK BOT");
+    message.channel.send(embed);
+  }
+});
+////////////user///////////
+client.on("message", message => {
+  if (message.content.startsWith(prefix + "user")) {
+    if (!message.channel.guild) return;
+    let user = message.mentions.users.first();
+    var men = message.mentions.users.first();
+    var heg;
+    if (men) {
+      heg = men;
+    } else {
+      heg = message.author;
+    }
+    var mentionned = message.mentions.members.first();
+    var h;
+    if (mentionned) {
+      h = mentionned;
+    } else {
+      h = message.member;
+    }
+    const embed = new Discord.MessageEmbed()
+        .setThumbnail(heg.avatarURL())
+        .addField("**ID**", `${heg.id}`, true)
+        .addField("**Name**", `${heg.username}`, true)
+        .addField('**Discrim Account**',"**#" +  `${heg.discriminator}**`,true)
+        .addField("**Created Account At**", `${heg.createdAt}`, true)
+        .addField("**Time Join Server**", message.member.joinedAt.toLocaleString())    
+        .addField("**Bot**", `${heg.bot}`, true)
+        .setFooter(`Replying to ${message.author.username}#${message.author.discriminator}`)
+        .setColor("RANDOM")     
+        .setFooter("BLACK SESTAM");
+  
+    message.channel.send(embed);
+  }
+});
+//////////year///////
+client.on("message", msg => {
+if (msg.content.startsWith(prefix + "year")){
+    let now = new Date();
+    let next = new Date(now);
+    next.setFullYear(now.getFullYear() + 1);
+    next.setHours(0, 0, 0, 0);
+    next.setMonth(0, 1);
+    let duration = next - now;
+    let seconds = Math.floor((duration / 1000) % 60);
+    let minutes = Math.floor((duration / 1000 / 60) % 60);
+    let hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+    let days = Math.floor(duration / (1000 * 60 * 60 * 24));
+    
+    let embed = new Discord.MessageEmbed()
+    .setAuthor("Next Year!", msg.author.displayAvatarURL())
+    .setColor("RANDOM")
+    .setDescription(`There are **${days} days**, **${hours} hours**, **${minutes} minutes** and **${seconds} seconds** until **${next.getFullYear()}**!`)
+    .setImage("")
+    .setFooter(`Or, in short, ${moment.duration(next - now).humanize()}.`)
+    msg.channel.send(embed)
+}
+})
+///////////////banner/////////
+client.on("message", message => {
+  if(message.content.startsWith(prefix + "banner")) {
+    if(message.guild.bannerURL() === null || message.guild.bannerURL === undefined) return message.channel.send("**❌ | This server doesn\'t have a banner.**");
+    const ba = new Discord.MessageEmbed()
+    .setAuthor(message.guild.name, message.guild.iconURL())
+    .setDescription(`[Banner URL](${message.guild.bannerURL}?size=2048)`)
+    .setImage(message.guild.bannerURL() + "?size=2048")
+    message.channel.send({embed : ba})
+  }
+});
+/////////////:::://///kill//////
+client.on("message", message => {
+  if (!message.content.startsWith(prefix)) return;
+  if (!message.channel.guild)
+    return 
+  let command = message.content.split(" ")[0];
+  command = command.slice(prefix.length);
+  if (command === "kill") {
+    var sabotage = message.mentions.users.first();
+    if (sabotage == message.author)
+      return message.reply(`**No please menition user**`);
+    if (sabotage === client.user) return message.reply(`**Why?**`);
+    if (sabotage < 1) {
+      message.delete();
+      return message.channel.sendMessage(
+        "Put something to kill like mention your username or use an emoji"
+      );
+    }
+    if (!sabotage)
+      return message.channel.send(`Please Mention A Member to Kill :warning:`);
+    message.channel.send("▄︻̷̿┻̿═━一 ${sabotage").then(msg => {
+      msg.edit(`▄︻̷̿┻̿═━一 ${sabotage} :three:`);
+      setTimeout(function() {
+        msg.edit(`▄︻̷̿┻̿═━一 ${sabotage} :two:`);
+      }, 1000);
+      setTimeout(function() {
+        msg.edit(`▄︻̷̿┻̿═━一 ${sabotage} :one:`);
+      }, 2000);
+      setTimeout(function() {
+        msg.edit(`▄︻̷̿┻̿═━一 :boom:`);
+      }, 3000);
+      setTimeout(function() {
+        msg.edit(`▄︻̷̿┻̿═━一 :fire:`);
+      }, 4000);
+      setTimeout(function() {
+        msg.edit(`▄︻̷̿┻̿═━一 :skull:`);
+      }, 5000);
+      msg.delete(6000);
+      message.delete();
+    });
+    message.channel
+      .send("**** The crime has been successfully hidden 🕳 **")
+      .then(msg => msg.delete(7000));
+  }
+});
+//////////////////mute voice :///////////0
