@@ -479,7 +479,7 @@ client.on("message", message => {
 });
 /////////////server////////
 client.on("message", msg => {
-  if (msg.content == prefix + "server") {
+  if (msg.content == prefix + "guild") {
     let embed = new Discord.MessageEmbed()
       .setThumbnail(msg.guild.iconURL())
       .setColor("RANDOM")
@@ -1003,4 +1003,274 @@ client.on("message", message => {
       });
     }
   }
+});
+///////////unmute
+client.on("message", async message => {
+  let args = message.content.split(" ");
+  let user = message.mentions.users.first();
+  if (message.content.startsWith(prefix + "unmute")) {
+    if (cooldown.has(message.author.id)) {
+      return message.channel
+        .send(`:stopwatch: | Please wait for 10 second`)
+        .then(m => {
+          m.delete({ timeout: cdtime * 600 });
+        });
+    }
+
+    cooldown.add(message.author.id);
+
+    setTimeout(() => {
+      cooldown.delete(message.author.id);
+    }, cdtime * 1000);
+    if (!message.guild.member(message.author).hasPermission("MUTE_MEMBERS"))
+      return message.channel.send(
+        "**Please Check Your Permission MUTE_MEBMERS**"
+      );
+    if (!message.guild.member(client.user).hasPermission("MUTE_MEMBERS"))
+      return message.channel.send(
+        "**Please Check My Permission MUTE_MEBMERS**"
+      );
+    if (!user)
+      return message.channel.send(`**>>> ${prefix}unmute <@mention Or ID>**`);
+    let mute = message.guild.roles.cache.find(
+      role => role.name === "Muted",
+      "Muted By BlackSestam"
+    );
+    message.guild.channels.cache.forEach(async channel => {
+      await channel.createOverwrite(mute, {
+        SEND_MESSAGES: false,
+        ADD_REACTIONS: false
+      });
+    });
+    message.guild.member(user).roles.remove(mute);
+    message.channel.send(`**removed mute from ${user.username}!**`);
+  }
+  if (message.content.toLowerCase() === `${prefix}help unmute`) {
+    let unmute = new Discord.MessageEmbed()
+      .setTitle(`Command: unmute `)
+      .addField("Usage", `${prefix}unmute @user`)
+      .addField("Information", "unmute Members");
+    message.channel.send(unmute);
+  }
+});
+////////////mute///
+client.on("message", async message => {
+  let args = message.content.split(" ");
+  let user =
+    message.mentions.users.first() || message.guild.members.cache.get(args[1]);
+  if (message.content.startsWith(prefix + "mute")) {
+    if (cooldown.has(message.author.id)) {
+      return message.channel
+        .send(`:stopwatch: | Please wait for 10 second`)
+        .then(m => {
+          m.delete({ timeout: cdtime * 600 });
+        });
+    }
+
+    cooldown.add(message.author.id);
+
+    setTimeout(() => {
+      cooldown.delete(message.author.id);
+    }, cdtime * 1000);
+    if (!message.guild.member(message.author).hasPermission("MUTE_MEMBERS"))
+      return message.channel.send(
+        "**Please Check Your Permission MUTE_MEBMERS**"
+      );
+    if (!message.guild.member(client.user).hasPermission("MUTE_MEMBERS"))
+      return message.channel.send(
+        "**Please Check My Permission MUTE_MEBMERS**"
+      );
+    if (!user)
+      return message.channel.send(`**>>> ${prefix}mute <@mention Or ID>**`);
+    let mute = message.guild.roles.cache.find(
+      role => role.name === "Muted",
+      "Muted By BlackSestam"
+    );
+    if (!mute)
+      mute = await message.guild.roles.create({
+        data: {
+          name: "Muted",
+          color: "#0000",
+          permissions: []
+        }
+      });
+    message.guild.channels.cache.forEach(async channel => {
+      await channel.createOverwrite(mute, {
+        SEND_MESSAGES: false,
+        ADD_REACTIONS: false
+      });
+    });
+    message.guild.member(user).roles.add(mute);
+    message.channel.send(`**${user.username} has been muted!**`);
+  }
+  if (message.content.toLowerCase() === `${prefix}help mute`) {
+    let mute = new Discord.MessageEmbed()
+      .setTitle(`Command: Mute `)
+      .addField("By", message.author.tag)
+      .addField("Usage", `${prefix}mute @user`)
+      .addField("Information", "Mute Members");
+    message.channel.send(mute);
+  }
+});
+/////////////////roles//
+client.on("message", message => {
+  if (message.content.toLowerCase() === prefix + "roles") {
+    if (cooldown.has(message.author.id)) {
+      return message.channel
+        .send(`:stopwatch: | Please wait for 10 second`)
+        .then(m => {
+          m.delete({ timeout: cdtime * 600 });
+        });
+    }
+
+    cooldown.add(message.author.id);
+
+    setTimeout(() => {
+      cooldown.delete(message.author.id);
+    }, cdtime * 1000);
+    let roles = message.guild.roles.cache.map(r => `> ${r.name}  `).join("\n");
+    let embed = new Discord.MessageEmbed()
+      .setTitle("Server Roles")
+      .setDescription(" ```javascript\n" + roles + "``` ");
+    message.channel.send(embed);
+  }
+  if (message.content.toLowerCase() === prefix + "help roles") {
+    let roles = new Discord.MessageEmbed()
+      .setTitle(`Command: roles `)
+      .addField("Usage", `${prefix}roles`)
+      .addField("Information", "Show All Roles For Server");
+    message.channel.send(roles);
+  }
+});
+/////////////////bans
+client.on("message", message => {
+  if (message.content.toLowerCase() === prefix + "bans") {
+    if (cooldown.has(message.author.id)) {
+      return message.channel
+        .send(`:stopwatch: | Please wait for 10 second`)
+        .then(m => {
+          m.delete({ timeout: cdtime * 600 });
+        });
+    }
+
+    cooldown.add(message.author.id);
+
+    setTimeout(() => {
+      cooldown.delete(message.author.id);
+    }, cdtime * 1000);
+    message.guild
+      .fetchBans()
+      .then(bans => message.channel.send(`**__${bans.size}__ Bans**`))
+      .catch(error => {
+        message.channel.send(error.message);
+      });
+  }
+  if (message.content.toLowerCase() === prefix + "hbans") {
+    let unban = new Discord.MessageEmbed()
+      .setTitle(`Command: bans `)
+      .addField("Usage", `${prefix}bans`)
+      .addField("Information", "bans count");
+    message.channel.send(unban);
+  }
+});
+/////////avatar/////////
+client.on("message", async message => {
+  let command = message.content.toLowerCase().split(" ")[0];
+  command = command.slice(prefix.length);
+  if (command == "avatar") {
+    if (cooldown.has(message.author.id)) {
+      return message.channel
+        .send(`:stopwatch: | Please wait for 10 second`)
+        .then(m => {
+          m.delete({ timeout: cdtime * 600 });
+        });
+    }
+
+    cooldown.add(message.author.id);
+
+    setTimeout(() => {
+      cooldown.delete(message.author.id);
+    }, cdtime * 1000);
+    let args = message.content.split(" ");
+    let user =
+      message.mentions.users.first() ||
+      message.author ||
+      message.guild.member.cache.get(args[1]);
+    message.channel.send(
+      new Discord.MessageEmbed()
+        .setAuthor(user.username, user.avatarURL())
+        .setDescription(`**[Avatar Link](${user.avatarURL()})**`)
+        .setImage(user.avatarURL({ dynamic: true, format: "png", size: 1024 }))
+    );
+  }
+});
+/////////////server
+client.on("message", black => {
+  if (black.content.startsWith(prefix + "server")) {
+    if (cooldown.has(black.author.id)) {
+      return black.channel
+        .send(`:stopwatch: | Please wait for 10 second`)
+        .then(m => {
+          m.delete({ timeout: cdtime * 600 });
+        });
+    }
+
+    cooldown.add(black.author.id);
+
+    setTimeout(() => {
+      cooldown.delete(black.author.id);
+    }, cdtime * 1000);
+    var blackjack = new Discord.MessageEmbed()
+      .setAuthor(black.guild.name)
+      .setThumbnail(black.guild.iconURL())
+      .setTitle("**Info Server**")
+      .addField("**Server Name:**", `${black.guild.name}`)
+      .addField("**Owner Server:**", `<@${black.guild.ownerID}>`)
+      .addField("**Server ID:**", `${black.guild.id}`)
+      .addField("**Created:**", `${black.guild.createdAt.toLocaleString()}`)
+      .addField("**Emojis**", `${black.guild.emojis.cache.size}`, true)
+      .addField("**Members:**", `${black.guild.memberCount}`)
+      .addField("**Channels:**", `${black.guild.channels.cache.size}`)
+      .addField("**Region**:", `${black.guild.region}`)
+      .addField(`**Boosts**`, `${black.guild.premiumSubscriptionCount}`, true)
+      .addField("**Roles:**", ` ${black.guild.roles.cache.size}`)
+      .addField("AFK Timeout", black.guild.afkTimeout / 60 + ' minutes', true)
+      .setFooter(`Requested | ${black.author.tag}`, black.author.avatarURL())
+      .setColor("RANDOM")
+      .setTimestamp();
+    black.channel.send(blackjack);
+  }
+});
+//////////support/////
+client.on('message', message => {
+  if(message.content.startsWith(`${prefix}support`)){
+    var embed = new Discord.MessageEmbed()
+    .setTitle("Click Here")
+    .setURL("https://discord.gg/xMYBJaCFcf")
+    .setTimestamp()
+    .setFooter(`Requested By | ${message.author.username}`)
+    .setColor("RANDOM")
+    message.channel.send("**Check Your DM**")
+    message.author.send({embed})
+  }
+});
+///////////say/////
+client.on('message', message => {
+    if (message.content.startsWith(prefix  + 'say')) {
+        if (message.member.hasPermission("MANAGE_EMOJI")) return message.reply("Sorry You Not Have Premission MANAGE GUILD")
+   var say = message.content.split(" ").slice(1).join(" ");
+    if(!say) return message.reply("**Please Type Message For say**")
+        message.channel.send(say);
+}
+    if (message.content.startsWith(prefix  + "embed")) {
+        if (message.member.hasPermission("MANAGE_EMOJI")) return message.reply("Sorry You Not Have Premission MANAGE EMOJI")
+   var args = message.content.split(" ").slice(1).join(" ");
+   if(!args) return message.reply("**Please Type Message For say Embed**")
+   const embed = new Discord.MessageEmbed()
+        .setColor('RANDOM')
+        .setThumbnail(message.author.avatarURL())
+        .setAuthor(message.author.username,message.author.avatarURL())
+        .setDescription(args)
+        message.channel.send(embed);
+}
 });
