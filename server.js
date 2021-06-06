@@ -111,5 +111,105 @@ const rast = "<:3626FA51DBD64815983FB2218F90BF20:812411653794430988>";
 const rastw = "<:3626FA51DBD64815983FB2218F90BF20:812411653794430988>";
 const ghallat = "<:CBC89BE048CF4C5AAB38F87C661962BE:812411654003621989>";
 const ghallatw = "<:CBC89BE048CF4C5AAB38F87C661962BE:812411654003621989>";
-
+const { MessageEmbed } = require("discord.js");
 ///////:::://////
+client.on("message", async message => {
+  if (message.content.startsWith(prefix + "unlock")) {
+    if (cooldown.has(message.author.id)) {
+      return message.channel.send(`⏱ Please wait for 5 second`).then(m => {
+        
+      m.delete({ timeout: cdtime * 600 });
+      });
+    }
+
+    cooldown.add(message.author.id);
+
+    setTimeout(() => {
+      cooldown.delete(message.author.id);
+    }, cdtime * 1000);
+    if (!message.channel.guild)
+      return message.channel.send("Sorry This Command Only For Servers.");
+
+    if (!message.member.hasPermission("MANAGE_CHANNELS")) return;
+    if (!message.guild.member(client.user).hasPermission("MANAGE_CHANNELS"))
+      return;
+    message.channel.updateOverwrite(message.guild.id, {
+      SEND_MESSAGES: null
+    });
+    const unlock = new MessageEmbed()
+      .setColor("RED")
+      .setDescription(
+        `🔓 | UnLocked Channel
+Channel Name : <#${message.channel.id}>
+Locked By : <@${message.author.id}>
+Send Message : ${rastw}
+`
+      )
+      .setThumbnail(message.author.avatarURL())
+      .setFooter(`${message.author.tag}`, message.author.avatarURL());
+    message.channel.send(unlock);
+  }
+});
+///////////////:///////kick w ban//////
+client.on("message", async message => {
+  if (
+    message.author.bot ||
+    !message.guild ||
+    !message.content.startsWith(prefix)
+  )
+    return;
+  const args = message.content
+      .slice(prefix.length)
+      .trim()
+      .split(/ +/),
+    commandName = args.shift().toLowerCase();
+  if (["ban", "kick"].includes(commandName)) {
+    let mode = commandName;
+    if (
+      !message.member.hasPermission(
+        mode == "kick" ? "KICK_MEMBERS" : "BAN_MEMBERS"
+      )
+    )
+      return message.channel.send(
+        "**❌ | You don't have Permissions do to this.**"
+      );
+    let user = message.guild.member(
+      message.mentions.users.first() ||
+        message.guild.members.cache.find(x => x.id == args[0])
+    );
+    if (!user) return message.channel.send("**❌ | Member not found!**");
+    let bot = message.guild.member(client.user);
+    if (user.user.id == client.user.id) return message.channel.send("lol no");
+    if (user.user.id == message.guild.owner.id)
+      return message.channel.send(`**❌ | You can't ${mode} the owner!**`);
+    if (
+      user.roles.highest.position >= message.member.roles.highest.position &&
+      message.author.id !== message.guild.ownerID
+    )
+      return message.channel.send(
+        `**❌ | You can't ${mode} people higher ranked than yourself!**`
+      );
+    if (user.roles.highest.position >= bot.roles.highest.position)
+      return message.channel.send(
+        `**❌ | I can't ${mode} people who are higher ranked than me!**`
+      );
+    if (!user[`${mode == "ban" ? "bann" : mode}able`])
+      return message.channel.send(
+        `**❌ | Specified user is not ${mode}able.**`
+      );
+    user[mode](
+      mode == "ban"
+        ? { days: 7, reason: `Banned by ${message.author.tag}` }
+        : `Kicked by ${message.author.tag}`
+    )
+      .then(() =>
+        message.channel.send(
+          `**✅ ${mode == "ban" ? "Bann" : mode}ed __${
+            user.user.tag
+          }__ (ID: \`${user.user.id}\`)**`
+        )
+      )
+      .catch(console.error);
+  }
+});
+/////////////////////////////

@@ -49,6 +49,9 @@ module.exports = {
     **👊 | MODERATION_COMMANDS**
    > A!pin • A!unpin • A!tempmute
    > ---------------------------
+   > A!ban • A!kick •A!lock
+   > ---------------------------
+   > A!unlock • A!slowmode
     `)
 
     .setURL(`https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=${permissions}&scope=bot`)
