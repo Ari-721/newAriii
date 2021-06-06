@@ -18,28 +18,22 @@ module.exports = {
     .setDescription(`
     **PUBLIC_COMMANDS**
    > A!help • A!se • A!savatar
-   > ---------------------------
    > A!channelinfo • A!bot • A!invite
-   > ---------------------------
-   > A!ping • A!listemojis •
-   > ---------------------------
+   > A!ping • A!listemojis • A!youtube
    > A!nick • A!rules • A!boosts
-   
    > A!count • A!user • A!avatar
-   
    > A!year • A!banner • A!server
+   > A!guild • A!date • A!weather
+   > A!invites • A!support
+   > ---------------------------
    **🎵 | MUSIC_COMMANDS**
-   > A!pause •  A!play (A!p)  • A!skip (A!s) • 
-   > 
-   > A!stop • A!leave • A!loop (A!l) 
-   > 
-   > A!queue (A!q) • A!ping •
-   > 
+   > A!pause •  A!play (A!p)  • A!skip (A!s) 
+   > A!stop • A!leave • A!loop (A!l)  
+   > A!queue (A!q) • A!ping  
    > A!remove • A!resume (A!r) •A!search 
-   > 
-   > A!skipto (A!st) • A!volume (A!v) •
-   > 
+   > A!skipto (A!st) • A!volume (A!v) 
    > A!lyrics (A!ly) • A!playlist (A!pl) • A!shuffle
+   > ---------------------------
     **😅 | FUN_COMMANDS**
    > A!kiss • A!slap • A!tickle
    > A!meme • A!love • A!sad
@@ -56,9 +50,9 @@ module.exports = {
    > A!ban • A!kick •A!unban
    > A!hide • A!unhide • A!delete
    > A!lock • A!unlock • A!bans
-   > A!slowmode
+   > A!slowmode • A!rooms • A!clear
    > ---------------------------
-   By : <@>
+   By : <@363268408915132418>
     `)
 
     .setURL(`https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=${permissions}&scope=bot`)
