@@ -152,35 +152,13 @@ Send Message : ${rastw}
 });
 ///////////////:///////kick w ban//////
 
-      user.roles.highest.position >= message.member.roles.highest.position &&
-      message.author.id !== message.guild.ownerID
-    )
-      return message.channel.send(
-        `**❌ | You can't ${mode} people higher ranked than yourself!**`
-      );
-    if (user.roles.highest.position >= bot.roles.highest.position)
-      return message.channel.send(
-        `**❌ | I can't ${mode} people who are higher ranked than me!**`
-      );
-    if (!user[`${mode == "ban" ? "bann" : mode}able`])
-      return message.channel.send(
-        `**❌ | Specified user is not ${mode}able.**`
-      );
-    user[mode](
-      mode == "ban"
-        ? { days: 7, reason: `Banned by ${message.author.tag}` }
-        : `Kicked by ${message.author.tag}`
-    )
-      .then(() =>
-        message.channel.send(
-          `**✅ ${mode == "ban" ? "Bann" : mode}ed __${
-            user.user.tag
-          }__ (ID: \`${user.user.id}\`)**`
-        )
-      )
-      .catch(console.error);
-  }
-});
+
+
+////////////////
+
+
+
+
 /////////////////move////////////
 client.on("message", message => {
   if (message.content.startsWith(prefix + "move")) {
