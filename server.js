@@ -151,38 +151,7 @@ Send Message : ${rastw}
   }
 });
 ///////////////:///////kick w ban//////
-client.on("message", async message => {
-  if (
-    message.author.bot ||
-    !message.guild ||
-    !message.content.startsWith(prefix)
-  )
-    return;
-  const args = message.content
-      .slice(prefix.length)
-      .trim()
-      .split(/ +/),
-    commandName = args.shift().toLowerCase();
-  if (["ban", "kick"].includes(commandName)) {
-    let mode = commandName;
-    if (
-      !message.member.hasPermission(
-        mode == "kick" ? "KICK_MEMBERS" : "BAN_MEMBERS"
-      )
-    )
-      return message.channel.send(
-        "**❌ | You don't have Permissions do to this.**"
-      );
-    let user = message.guild.member(
-      message.mentions.users.first() ||
-        message.guild.members.cache.find(x => x.id == args[0])
-    );
-    if (!user) return message.channel.send("**❌ | Member not found!**");
-    let bot = message.guild.member(client.user);
-    if (user.user.id == client.user.id) return message.channel.send("lol no");
-    if (user.user.id == message.guild.owner.id)
-      return message.channel.send(`**❌ | You can't ${mode} the owner!**`);
-    if (
+
       user.roles.highest.position >= message.member.roles.highest.position &&
       message.author.id !== message.guild.ownerID
     )
@@ -1254,23 +1223,46 @@ client.on('message', message => {
     message.author.send({embed})
   }
 });
-///////////say/////
-client.on('message', message => {
-    if (message.content.startsWith(prefix  + 'say')) {
-        if (message.member.hasPermission("MANAGE_EMOJI")) return message.reply("Sorry You Not Have Premission MANAGE GUILD")
-   var say = message.content.split(" ").slice(1).join(" ");
-    if(!say) return message.reply("**Please Type Message For say**")
-        message.channel.send(say);
-}
-    if (message.content.startsWith(prefix  + "embed")) {
-        if (message.member.hasPermission("MANAGE_EMOJI")) return message.reply("Sorry You Not Have Premission MANAGE EMOJI")
-   var args = message.content.split(" ").slice(1).join(" ");
-   if(!args) return message.reply("**Please Type Message For say Embed**")
-   const embed = new Discord.MessageEmbed()
-        .setColor('RANDOM')
-        .setThumbnail(message.author.avatarURL())
-        .setAuthor(message.author.username,message.author.avatarURL())
-        .setDescription(args)
-        message.channel.send(embed);
-}
+///////////unban/////
+client.on("message", message => {
+  let command = message.content.split(" ")[0];
+  if (command == prefix + "unban") {
+    if (cooldown.has(message.author.id)) {
+      return message.channel
+        .send(`:stopwatch: | Please wait for 10 second`)
+        .then(m => {
+          m.delete({ timeout: cdtime * 600 });
+        });
+    }
+
+    cooldown.add(message.author.id);
+
+    setTimeout(() => {
+      cooldown.delete(message.author.id);
+    }, cdtime * 1000);
+    if (!message.member.hasPermission("BAN_MEMBERS")) return;
+    let args = message.content
+      .split(" ")
+      .slice(1)
+      .join(" ");
+    if (args == "all") {
+      message.guild.fetchBans().then(zg => {
+        zg.forEach(Saad => {
+          message.guild.unban(Saad);
+        });
+      });
+      return message.channel.send("**✅ Unbanned all members **");
+    }
+    if (!args) return message.channel.send("**Please Type the member ID**");
+    message.guild
+      .unban(args)
+      .then(m => {
+        message.channel.send(`✅  **-** **Done Unbanned ${m.username}**`);
+      })
+      .catch(stry => {
+        message.channel.send(
+          ` :x: **-** **I can't find \`${args}\` in the ban list**`
+        );
+      });
+  }
 });
