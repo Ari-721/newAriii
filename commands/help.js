@@ -27,7 +27,7 @@ module.exports = {
    
    > A!count • A!user • A!avatar
    
-   > A!year • A!banner
+   > A!year • A!banner • A!server
    **🎵 | MUSIC_COMMANDS**
    > A!pause •  A!play (A!p)  • A!skip (A!s) • 
    > ---------------------------
@@ -56,7 +56,7 @@ module.exports = {
    > ---------------------------
    > A!ban • A!kick •A!lock
    > ---------------------------
-   > A!unlock • A!slowmode
+   > A!unlock • A!slowmode • A!mutevoice
     `)
 
     .setURL(`https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=${permissions}&scope=bot`)

@@ -457,3 +457,45 @@ client.on("message", message => {
   }
 });
 //////////////////mute voice :///////////0
+client.on("message", message => {
+  if (message.content.startsWith(prefix + "mutevoice")) {
+    if (!message.member.hasPermission("MUTE_MEMBERS"))
+      return message.channel
+        .sendMessage("**You dont Have premisssion Mutevoicr** ")
+        .then(m => m.delete(5000));
+    if (!message.guild.member(client.user).hasPermission("MUTE_MEMBERS"))
+      return message
+        .reply("**I Don't Have `MUTE_MEMBERS` Permission**")
+        .then(msg => msg.delete(6000));
+
+    if (message.mentions.users.size === 0) {
+      return message.reply("Menition member");
+    }
+    let muteMember = message.guild.member(message.mentions.users.first());
+    if (!muteMember) {
+      return message.reply("Restart");
+    }
+    muteMember.setMute(true);
+    if (muteMember) {
+      message.channel.sendMessage("Muted voice ");
+    }
+  }
+});
+/////////////server////////
+client.on("message", msg => {
+  if (msg.content == prefix + "server") {
+    let embed = new Discord.MessageEmbed()
+      .setThumbnail(msg.guild.iconURL())
+      .setColor("RANDOM")
+      .addField("**SERVER CREATED ON**", msg.guild.name())
+      .addField("Year📆", msg.guild.createdAt.getFullYear())
+      .addField("Hour📆", msg.guild.createdAt.getHours())
+      .addField("Day📆", msg.guild.createdAt.getDay())
+      .addField("Month📆", msg.guild.createdAt.getMonth())
+      .addField("Minutes📆", msg.guild.createdAt.getMinutes())
+      .addField("Seconds📆", msg.guild.createdAt.getSeconds())
+      .addField("Full📆", msg.guild.createdAt.toLocaleString())
+      .setTimestamp();
+    msg.channel.send(embed);
+  }
+});
