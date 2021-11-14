@@ -2,7 +2,7 @@
 require("dotenv").config(); //Loading .env
 const fs = require("fs");
 const { Collection, Client } = require("discord.js");
-const prefix = "!!";
+const prefix = "A?";
 const client = new Client(); //Making a discord bot client
 
 var { Util } = require("discord.js");
